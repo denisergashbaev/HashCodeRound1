@@ -19,6 +19,7 @@ class Drone(object):
         self.items[product] = item_count + quantity
         self.current_payload += incoming_payload
         self._load_command(product.id, quantity, warehouse.id)
+        self.location = warehouse.location
 
     def _load_command(self, product_id, product_quantity, warehouse_id):
         cmd = "%s L %s %s %s" % (self.id, warehouse_id, product_id, product_quantity)
@@ -32,6 +33,7 @@ class Drone(object):
         item_count -= product_quantity
         self.items[product] = item_count
         self._deliver_command(product.id, product_quantity, order.id)
+        self.location = order.location
 
     def _deliver_command(self, product_id, product_quantity, order_id):
         cmd = "%s D %s %s %s" % (self.id, order_id, product_id, product_quantity)

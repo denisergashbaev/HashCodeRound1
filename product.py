@@ -11,4 +11,4 @@ class Product(object):
         return (self.id, self.max_weight) == (other.id, other.max_weight)
 
     def __repr__(self):
-        return '<ProductType id=%r,max_weight=%r>' % (self.id, self.max_weight)
+        return '<Product id=%r,max_weight=%r>' % (self.id, self.max_weight)

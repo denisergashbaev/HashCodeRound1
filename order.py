@@ -1,15 +1,14 @@
-class Warehouse(object):
+class Order(object):
     def __init__(self, id, location):
         self.id = id
         self.location = location
         self.items = {}
 
-    def add_product(self, product, quantity):
+    def add_product(self, product):
         try:
-            item_count = self.items[product]
+            self.items[product] += 1
         except KeyError:
-            item_count = 0
-        self.items[product] = item_count + quantity
+            self.items[product] = 1
 
     def __repr__(self):
-        return '<Warehouse id=%r,location=%r>' % (self.id, self.location)
+        return '<Order id=%r,location=%r>' % (self.id, self.location)

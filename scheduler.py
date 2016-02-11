@@ -1,5 +1,5 @@
 from numpy import inf
-from math import sqrt, floor
+from math import sqrt, floor, ceil
 
 
 class Scheduler(object):
@@ -23,14 +23,19 @@ class Scheduler(object):
         time = 0
         drone_location = drone.location
         warehouses = {w.id: [] for w in self.config.warehouses}
+
         for item in order.items:
             w = self.find_closest_warehouse_with_item(item, drone)
             warehouses[w.id].append(item)
 
         for key in warehouses:
+
             if warehouses[key]:
-                time += self.distance(drone_location, w.location)
-                time += self.distance(w.location, order.location)
-                drone_location = order.location
+                total_weight = sum(map(lambda x: x.max_weight, warehouses[key]))
+                number_of_travels = ceil(total_weight / drone.max_payload)
+                for i in range(number_of_travels):
+                    time += self.distance(drone_location, w.location)
+                    time += self.distance(w.location, order.location)
+                    drone_location = order.location
         return time
 

@@ -1,7 +1,6 @@
 from numpy import inf
 from math import sqrt, floor
 
-
 class Scheduler(object):
     def __init__(self, config):
         self.config = config
@@ -18,3 +17,13 @@ class Scheduler(object):
                 closest_warehouse = w
 
         return closest_warehouse
+
+    def compute_time_for_order(self, drone, order):
+        time = 0
+        drone_location = drone.location
+        for item in order.items:
+            w = self.find_closest_warehouse_with_item(item, drone)
+            time += self.distance(drone_location, w.location)
+            time += self.distance(w.location, order.location)
+            drone_location = order.location
+        return time
